@@ -156,10 +156,12 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <div className="relative min-h-screen overflow-hidden bg-ink font-sans text-white antialiased">
+      <div className="relative flex min-h-screen flex-col overflow-x-hidden bg-ink font-sans text-white antialiased">
         <AuroraBackground />
         <Header />
-        <Outlet />
+        <main className="flex-1">
+          <Outlet />
+        </main>
         <Footer />
       </div>
     </QueryClientProvider>
