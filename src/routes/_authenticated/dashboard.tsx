@@ -198,7 +198,7 @@ function Dashboard() {
                 <Label>Quality: {qualityLabel(quality)}</Label>
                 <Slider
                   value={[quality]}
-                  onValueChange={(v) => setQuality(v[0])}
+                  onValueChange={(v) => setQuality(v[0] ?? quality)}
                   min={1}
                   max={5}
                   step={1}

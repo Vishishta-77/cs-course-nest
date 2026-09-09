@@ -6,16 +6,16 @@ import { Moon, Menu, X } from "lucide-react";
 
 export function Header() {
   const router = useRouter();
-  const [user, setUser] = useState<{ email?: string } | null>(null);
+  const [user, setUser] = useState<{ email: string | null } | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data }) => {
-      setUser(data.user ? { email: data.user.email } : null);
+      setUser(data.user ? { email: data.user.email ?? null } : null);
     });
     const { data: listener } = supabase.auth.onAuthStateChange((event, session) => {
       if (event === "SIGNED_IN" || event === "SIGNED_OUT" || event === "USER_UPDATED") {
-        setUser(session?.user ? { email: session.user.email } : null);
+        setUser(session?.user ? { email: session.user.email ?? null } : null);
         router.invalidate();
       }
     });
