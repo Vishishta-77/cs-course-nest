@@ -17,6 +17,7 @@ import { Route as CoursesRouteImport } from './routes/courses'
 import { Route as FacultyRouteImport } from './routes/faculty'
 import { Route as OutcomesRouteImport } from './routes/outcomes'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
+import { Route as AuthenticatedHistoryRouteImport } from './routes/_authenticated/history'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -57,6 +58,11 @@ const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedHistoryRoute = AuthenticatedHistoryRouteImport.update({
+  id: '/history',
+  path: '/history',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -66,6 +72,7 @@ export interface FileRoutesByFullPath {
   '/faculty': typeof FacultyRoute
   '/outcomes': typeof OutcomesRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/history': typeof AuthenticatedHistoryRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -75,6 +82,7 @@ export interface FileRoutesByTo {
   '/faculty': typeof FacultyRoute
   '/outcomes': typeof OutcomesRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/history': typeof AuthenticatedHistoryRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -86,6 +94,7 @@ export interface FileRoutesById {
   '/faculty': typeof FacultyRoute
   '/outcomes': typeof OutcomesRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
+  '/_authenticated/history': typeof AuthenticatedHistoryRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -97,6 +106,7 @@ export interface FileRouteTypes {
     | '/faculty'
     | '/outcomes'
     | '/dashboard'
+    | '/history'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -106,6 +116,7 @@ export interface FileRouteTypes {
     | '/faculty'
     | '/outcomes'
     | '/dashboard'
+    | '/history'
   id:
     | '__root__'
     | '/'
@@ -116,6 +127,7 @@ export interface FileRouteTypes {
     | '/faculty'
     | '/outcomes'
     | '/_authenticated/dashboard'
+    | '/_authenticated/history'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -186,15 +198,24 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDashboardRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/history': {
+      id: '/_authenticated/history'
+      path: '/history'
+      fullPath: '/history'
+      preLoaderRoute: typeof AuthenticatedHistoryRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
+  AuthenticatedHistoryRoute: typeof AuthenticatedHistoryRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
+  AuthenticatedHistoryRoute: AuthenticatedHistoryRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
