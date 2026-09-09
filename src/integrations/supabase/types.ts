@@ -14,7 +14,69 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      sleep_entries: {
+        Row: {
+          bedtime: string
+          created_at: string
+          date: string
+          duration_minutes: number
+          id: string
+          notes: string | null
+          quality: number
+          updated_at: string
+          user_id: string
+          wake_time: string
+        }
+        Insert: {
+          bedtime: string
+          created_at?: string
+          date: string
+          duration_minutes: number
+          id?: string
+          notes?: string | null
+          quality: number
+          updated_at?: string
+          user_id: string
+          wake_time: string
+        }
+        Update: {
+          bedtime?: string
+          created_at?: string
+          date?: string
+          duration_minutes?: number
+          id?: string
+          notes?: string | null
+          quality?: number
+          updated_at?: string
+          user_id?: string
+          wake_time?: string
+        }
+        Relationships: []
+      }
+      sleep_goals: {
+        Row: {
+          created_at: string
+          id: string
+          target_minutes: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          target_minutes?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          target_minutes?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
