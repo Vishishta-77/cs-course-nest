@@ -13,6 +13,8 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { AuroraBackground } from "../components/AuroraBackground";
 import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
+import { Toaster } from "@/components/ui/sonner";
+import { supabase } from "@/integrations/supabase/client";
 
 function NotFoundComponent() {
   return (
@@ -89,25 +91,24 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       meta: [
         { charSet: "utf-8" },
         { name: "viewport", content: "width=device-width, initial-scale=1" },
-        { title: "Northlight Academy — CSE, AI & ML Courses" },
+        { title: "Sleep Tracker — Understand Your Rest" },
         {
           name: "description",
           content:
-            "Structured pathways in Computer Science, Artificial Intelligence, and Machine Learning. Learn with depth, not just certificates.",
+            "Log your sleep, track quality, set goals, and build healthier rest habits.",
         },
-        { name: "author", content: "Northlight Academy" },
+        { name: "author", content: "Sleep Tracker" },
         {
           property: "og:title",
-          content: "Northlight Academy — CSE, AI & ML Courses",
+          content: "Sleep Tracker — Understand Your Rest",
         },
         {
           property: "og:description",
           content:
-            "Structured pathways in Computer Science, Artificial Intelligence, and Machine Learning.",
+            "Log your sleep, track quality, set goals, and build healthier rest habits.",
         },
         { property: "og:type", content: "website" },
         { name: "twitter:card", content: "summary_large_image" },
-        { name: "twitter:site", content: "@NorthlightAcademy" },
       ],
       links: [
         {
@@ -153,6 +154,19 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const router = useRouter();
+
+  useEffect(() => {
+    const { data: listener } = supabase.auth.onAuthStateChange((event) => {
+      if (event === "SIGNED_IN" || event === "SIGNED_OUT" || event === "USER_UPDATED") {
+        router.invalidate();
+        if (event !== "SIGNED_OUT") {
+          queryClient.invalidateQueries();
+        }
+      }
+    });
+    return () => listener.subscription.unsubscribe();
+  }, [queryClient, router]);
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -163,6 +177,7 @@ function RootComponent() {
           <Outlet />
         </main>
         <Footer />
+        <Toaster />
       </div>
     </QueryClientProvider>
   );
